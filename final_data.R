@@ -1,16 +1,19 @@
 # Reading in files
 library(dplyr)
-names <- read.table(file = "./data/drug_names.tsv", header = T)
+drug_names <- read.table(file = "./data/drug_names.tsv", header = T)
 side_effects <- read.delim("./data/meddra.tsv")
+all_indications <- read.delim("./data/meddra_all_indications.tsv")
 
 
 #Sorting and renaming column names to make it more readable
 colnames(side_effects) <- c("UMLS ID", "MedDRA ID", "kind", "side effect")
 
-final_table <- final_table %>% 
-  select(carnitine, C0015544)
-colnames(final_table) <- c("Drug_Name", "UMLS ID")
+names_with_id <- drug_names %>% 
+  right_join(all_indications) %>% 
+  select(carnitine, C0015544) %>% 
+  na.omit()
+colnames(names_with_id) <- c("Drug_Name", "UMLS ID")
 
 #Joining the data
-final_table <- right_join(final_table, side_effects)
-
+final_table <- right_join(names_with_id, side_effects)
+final_table <- na.omit(final_table)

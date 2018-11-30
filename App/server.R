@@ -23,46 +23,14 @@ function(input, output, session) {
   
   # Filter the movies, returning a data frame
   movies <- reactive({
-    
-   
-    
     # Apply filters
-    m <- all_movies %>%
-      filter(
-        Reviews >= reviews,
-        Oscars >= oscars,
-        Year >= minyear,
-        Year <= maxyear,
-        BoxOffice >= minboxoffice,
-        BoxOffice <= maxboxoffice
-      ) %>%
-      arrange(Oscars)
-    
-    # Optional: filter by genre
-    if (input$genre != "All") {
-      genre <- paste0("%", input$genre, "%")
-      m <- m %>% filter(Genre %like% genre)
-    }
+    data <- data %>% filter(Drug_Name == input$drug) %>% select(Drug_Name, side_effect)
     # Optional: filter by director
-    if (!is.null(input$director) && input$director != "") {
-      director <- paste0("%", input$director, "%")
-      m <- m %>% filter(Director %like% director)
+    if (!is.null(input$drug) && input$director != "") {
+      drug <- paste0("%", input$director, "%")
+      data <- data %>% filter(Drug_Name %like% drug)
     }
-    # Optional: filter by cast member
-    if (!is.null(input$cast) && input$cast != "") {
-      cast <- paste0("%", input$cast, "%")
-      m <- m %>% filter(Cast %like% cast)
-    }
-    
-    
-    m <- as.data.frame(m)
-    
-    # Add column which says whether the movie won any Oscars
-    # Be a little careful in case we have a zero-row data frame
-    m$has_oscar <- character(nrow(m))
-    m$has_oscar[m$Oscars == 0] <- "No"
-    m$has_oscar[m$Oscars >= 1] <- "Yes"
-    m
+    data <- as.data.frame(data)
   })
   
   # Function for generating tooltip text

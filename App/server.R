@@ -77,3 +77,7 @@ function(input, output, session) {
   
   output$n_movies <- renderText({ nrow(movies()) })
 }
+
+#y <-data.frame(matrix(ncol = 1, nrow = 3))
+#colnames(y) <-  "Tally"
+#row.names(y) <- c("Happy", "Neutral", "Sad")

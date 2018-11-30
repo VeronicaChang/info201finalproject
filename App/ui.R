@@ -22,10 +22,15 @@ shinyUI(fluidPage(
                    max = 50,
                    value = 30)
     ),
+      selectInput("How are you feeling?", label = h3("Choose a feeling"), 
+                  choices = list("Choice 1" = 1, "Choice 2" = 2, "Choice 3" = 3), 
+                  selected = 1),
     
+      hr(),
+     fluidRow(column(3, verbatimTextOutput("value")))
     # Show a plot of the generated distribution
-    mainPanel(
-       plotOutput("distPlot")
-    )
+    # mainPanel(
+    #    plotOutput("distPlot")
+    # )
   )
 ))

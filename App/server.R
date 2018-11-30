@@ -11,6 +11,8 @@ library(shiny)
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
+  source("final_data.R")
+  data <- give_data()
   output$dropdown <- renderPlot({
     output$value <- renderPrint({ input$select })
     })

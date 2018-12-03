@@ -10,9 +10,24 @@
 library(shiny)
 library(ggvis)
 library(dplyr)
-drug_names <- read.table(file = "./data/drug_names.tsv", header = T)
-side_effects <- read.delim("./data/meddra.tsv")
-all_indications <- read.delim("./data/meddra_all_indications.tsv")
+drug_names <- read.table(file = "../data/drug_names.tsv", header = T, stringsAsFactors = F, sep = "/")
+side_effects <- read.delim("../data/meddra.tsv", stringsAsFactors = F, sep = "/")
+all_indications <- read.delim("../data/meddra_all_indications.tsv", stringsAsFactors = F, sep = "/")
+
+  #Sorting and renaming column names to make it more readable
+  colnames(side_effects) <- c("UMLS ID", "MedDRA ID", "kind", "side effect")
+  
+  names_with_id <- drug_names %>% 
+    right_join(all_indications) %>% 
+    select(carnitine, C0015544) %>% 
+    na.omit()
+  colnames(names_with_id) <- c("Drug_Name", "UMLS ID")
+  
+  #Joining the data
+  final_table <- right_join(names_with_id, side_effects)
+  final_table <- na.omit(final_table)
+
+
 if (FALSE) {
   library(RSQLite)
   library(dbplyr)
@@ -23,22 +38,6 @@ if (FALSE) {
 data <- give_data()
 
 function(input, output, session) {
-  
-  give_data <- function() {
-    #Sorting and renaming column names to make it more readable
-    colnames(side_effects) <- c("UMLS ID", "MedDRA ID", "kind", "side effect")
-    
-    names_with_id <- drug_names %>% 
-      right_join(all_indications) %>% 
-      select(carnitine, C0015544) %>% 
-      na.omit()
-    colnames(names_with_id) <- c("Drug_Name", "UMLS ID")
-    
-    #Joining the data
-    final_table <- right_join(names_with_id, side_effects)
-    final_table <- na.omit(final_table)
-    return(final_table)
-  }
   
   # Filter the movies, returning a data frame
   movies <- reactive({
@@ -70,8 +69,8 @@ function(input, output, session) {
   # A reactive expression with the ggvis plot
   vis <- reactive({
     # Lables for axes
-    xvar_name <- names(axis_vars)[axis_vars == input$xvar]
-    yvar_name <- names(axis_vars)[axis_vars == input$yvar]
+    #xvar_name <- names(axis_vars)[axis_vars == input$xvar]
+    #yvar_name <- names(axis_vars)[axis_vars == input$yvar]
     
     # Normally we could do something like props(x = ~BoxOffice, y = ~Reviews),
     # but since the inputs are strings, we need to do a little more work.

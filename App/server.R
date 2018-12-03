@@ -6,7 +6,6 @@
 # 
 #    http://shiny.rstudio.com/
 #
-
 library(shiny)
 library(ggvis)
 library(dplyr)
@@ -24,10 +23,12 @@ function(input, output, session) {
   # Filter the movies, returning a data frame
   movies <- reactive({
     # Apply filters
-    data <- data %>% filter(Drug_Name == input$drug) %>% select(Drug_Name, side_effect)
+    # data <- data %>% filter(Drug_Name == input$drug) %>% select(Drug_Name, side_effect)
+    data <- data[data$Drug_Name == input$drug,c("Drug_Name", "side effect")]  
+    
     # Optional: filter by director
-    if (!is.null(input$drug) && input$director != "") {
-      drug <- paste0("%", input$director, "%")
+    if (!is.null(input$drug) && input$xvar != "") {
+      drug <- paste0("%", input$xvar, "%")
       data <- data %>% filter(Drug_Name %like% drug)
     }
     data <- as.data.frame(data)
@@ -50,24 +51,25 @@ function(input, output, session) {
   
   # A reactive expression with the ggvis plot
   vis <- reactive({
+    # axis_vars=colnames(data)
     # Lables for axes
-    xvar_name <- names(axis_vars)[axis_vars == input$xvar]
-    yvar_name <- names(axis_vars)[axis_vars == input$yvar]
-    
+    # xvar_name <- names(axis_vars)[axis_vars == input$xvar]
+    # yvar_name <- names(axis_vars)[axis_vars == input$yvar]
+    # 
     # Normally we could do something like props(x = ~BoxOffice, y = ~Reviews),
     # but since the inputs are strings, we need to do a little more work.
-    xvar <- prop("x", as.symbol(input$xvar))
-    yvar <- prop("y", as.symbol(input$yvar))
+    xvar <-  as.symbol(input$xvar) 
+    yvar <-  as.symbol(input$yvar) 
     
-    movies %>%
+    data %>%
       ggvis(x = xvar, y = yvar) %>%
       layer_points(size := 50, size.hover := 200,
                    fillOpacity := 0.2, fillOpacity.hover := 0.5,
-                   stroke = ~has_oscar, key := ~ID) %>%
+                   stroke = ~"side effect", key := ~"MedDRA ID") %>%
       add_tooltip(movie_tooltip, "hover") %>%
-      add_axis("x", title = xvar_name) %>%
-      add_axis("y", title = yvar_name) %>%
-      add_legend("stroke", title = "Won Oscar", values = c("Yes", "No")) %>%
+      add_axis("x", title = "xvar_name") %>%
+      add_axis("y", title = "yvar_name") %>%
+      add_legend("stroke", title = "effect", values = c("Yes", "No")) %>%
       scale_nominal("stroke", domain = c("Yes", "No"),
                     range = c("orange", "#aaa")) %>%
       set_options(width = 500, height = 500)
@@ -81,3 +83,4 @@ function(input, output, session) {
 #y <-data.frame(matrix(ncol = 1, nrow = 3))
 #colnames(y) <-  "Tally"
 #row.names(y) <- c("Happy", "Neutral", "Sad")
+

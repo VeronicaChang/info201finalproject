@@ -1,6 +1,6 @@
 ## install.packages("ggvis")
 library(ggvis)
-source("final_data.R")
+#source("final_data.R")
 data <- give_data()
 # For dropdown menu
 actionLink <- function(inputId, ...) {

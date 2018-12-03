@@ -19,6 +19,7 @@ shinyServer(function(input, output) {
     #Joining the data
     final_table <- left_join(drug_names, names_with_id, by = "UMLS_ID") %>% select("drug", "side_effect") 
     final_table <- na.omit(final_table) %>% select(drug, side_effect)
+    final_table <- distinct(Drug_Name, .keep_all = TRUE)
     if (!is.null(input$drug_name)) {
       final_table <- final_table %>% filter(drug == input$drug_name) 
     }

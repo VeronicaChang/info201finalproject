@@ -27,13 +27,10 @@ shinyServer(function(input, output) {
   output$text <- renderText({
     print(input$drug_name)
   })
-  output$plot2 <- renderPlot({
-    # Create the main ggplot
-    p <- ggplot(data = dataInput(), aes(x = 'drug', y = 'side_effect'))+geom_line()
-    
-    return(p)
+  output$table <- DT::renderDataTable(DT::datatable({
+    data <- dataInput()
   })
-  
+  )
 })
 
 #y <-data.frame(matrix(ncol = 1, nrow = 3))

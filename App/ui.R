@@ -8,8 +8,7 @@ shinyUI(fluidPage(
       sidebarPanel(
         textInput('drug_name', 'Prescribed Drug Name', value="gamma-aminobutyric")
       ),
-      mainPanel(
-        plotOutput("plot2"))
+      mainPanel(DT::dataTableOutput("table"))
     )
   )
 )

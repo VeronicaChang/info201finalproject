@@ -22,7 +22,9 @@ shinyServer(function(input, output) {
     if (!is.null(input$drug_name)) {
       final_table <- final_table %>% filter(drug == input$drug_name) 
     }
-    my_data <- as.data.frame(final_table)
+    my_data <- as.data.frame(final_table) 
+    do_not_include <- which(duplicated(my_data))
+    my_data <- my_data[-do_not_include, ]
   })
   output$text <- renderText({
     print(input$drug_name)

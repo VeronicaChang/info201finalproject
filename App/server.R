@@ -12,7 +12,7 @@ library(Hmisc)
 shinyServer(function(input, output) {
   
   output$map <- renderLeaflet({
-    health <- read.csv("~/Desktop/INFO201/info201finalproject/data/map_data.csv", stringsAsFactors = F)
+    health <- read.csv("data/map_data.csv", stringsAsFactors = F)
     m <- leaflet(health) %>%
       addTiles() %>%
       addMarkers(~lng, ~lat, label = health$Clinic.name)
@@ -21,9 +21,9 @@ shinyServer(function(input, output) {
   
   dataInput <- reactive({
     # Filter by the drug the user is prescribed
-    drug_names <- read.delim(file = "~/Desktop/INFO201/info201finalproject/data/drug_names.tsv", header = T)
-    side_effects <- read.delim("~/Desktop/INFO201/info201finalproject/data/meddra.tsv", stringsAsFactors = F)
-    all_indications <- read.delim("~/Desktop/INFO201/info201finalproject/data/meddra_all_indications.tsv", stringsAsFactors = F)
+    drug_names <- read.delim(file = "data/drug_names.tsv", header = T)
+    side_effects <- read.delim("data/meddra.tsv", stringsAsFactors = F)
+    all_indications <- read.delim("data/meddra_all_indications.tsv", stringsAsFactors = F)
     
     #Sorting and renaming column names to make it more readable
     colnames(all_indications) <- c("UMLS_ID", "MedDRA_ID", "kind", "first_effect", "type", "number", "second_effect")
@@ -47,7 +47,7 @@ shinyServer(function(input, output) {
       data <- data %>% filter(drug == input$drug_name) 
     }
     do_not_include <- which(duplicated(data))
-    my_data <- data[-do_not_include, ] %>% select(side_effect) 
+    my_data <- data[-do_not_include, ] %>% select(side_effect) %>% colnames("Side Effects")
     return(my_data)
   })
   )
@@ -57,16 +57,17 @@ shinyServer(function(input, output) {
       data <- data %>% filter(side_effect == input$effect) 
     }
     do_not_include <- which(duplicated(data))
-    my_data <- data[-do_not_include, ] %>% select(drug) 
+    my_data <- data[-do_not_include, ] %>% select(drug) %>% colnames("Drug")
     return(my_data)
   })
   )
   output$value <- renderPrint({ input$chosen_effects })
   output$pie <- renderPlot({
     data <- dataInput() 
-    data <- data %>% select(side_effect) %>% count(side_effect) %>% arrange(desc(n)) %>% head(10)
+    data <- data %>% select(side_effect) %>% count(side_effect) %>% arrange(desc(n)) %>% head(10) %>% colnames("Side Effects", "Count")
     p <- ggplot(data, aes(x=side_effect, y=n, fill=side_effect))+geom_bar(width = 1, stat = "identity")+coord_polar("y", start=0) +
       xlab("Side Effect") + ylab("How common side effects are") + title("Pie Chart to Show How Common Side Effects Are")
     return(p)
   })
 })
+

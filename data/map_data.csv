@@ -1,0 +1,34 @@
+"Clinic.name","Region","Street.address","City","Zip","Location","URL","lat","lng"
+"Auburn Public Health Center","","901 Auburn Way N, Suite A","Auburn",98002,"901 Auburn Way N, Suite A
+Auburn, WA 98002
+(47.316152365000505, -122.22289103599968)","http://www.kingcounty.gov/healthservices/health/locations/auburn.aspx",47.316187,-122.223278
+"Columbia Public Health Center","South Seattle","4400 37th Ave S.","Seattle",98118,"4400 37th Ave S.
+Seattle, WA 98118
+(47.56389057500047, -122.28602835699968)","http://www.kingcounty.gov/healthservices/health/locations/columbia.aspx",47.563905,-122.285746
+"Kent Public Health Center at Birch Creek","Kent","13111 SE 274th St.","Kent",98030,"13111 SE 274th St.
+Kent, WA 98030
+(47.355022319000454, -122.1665202479997)","http://www.kingcounty.gov/healthservices/health/locations/birchcreek.aspx",47.355646,-122.166407
+"Downtown Public Health Center","Seattle","2124 - 4th Ave.","Seattle",98121,"2124 - 4th Ave.
+Seattle, WA 98121
+(47.61446486300048, -122.34238374799969)","http://www.kingcounty.gov/healthservices/health/locations/downtown.aspx",47.614583,-122.342179
+"Eastgate Public Health Center","Eastgate/Factoria","14350 SE Eastgate Way","Bellevue",98007,"14350 SE Eastgate Way
+Bellevue, WA 98007
+(47.579916822000484, -122.15001786899973)","http://www.kingcounty.gov/healthservices/health/locations/eastgate.aspx",47.579962,-122.149638
+"Kent Public Health Center at East Hill","","13210 SE 240th St","Kent",98004,"13210 SE 240th St
+Kent, WA 98004
+(47.38692675800047, -122.1644996449997)","http://www.kingcounty.gov/healthservices/health/locations/easthill.aspx",47.387185,-122.164946
+"Federal Way Public Health Center","","33431 13th Place S.","Federal Way",98003,"33431 13th Place S.
+Federal Way, WA 98003
+(47.30188970600045, -122.31672943699971)","http://www.kingcounty.gov/healthservices/health/locations/federalway.aspx",47.301935,-122.31791
+"North Public Health Center","North Seattle","10501 Meridian Ave N.","Seattle",98133,"10501 Meridian Ave N.
+Seattle, WA 98133
+(47.70565847800049, -122.33398036199969)","http://www.kingcounty.gov/healthservices/health/locations/north.aspx",47.705486,-122.334061
+"Northshore Public Health Center","Bothell","10808 NE 145th St.","Bothell",98011,"10808 NE 145th St.
+Bothell, WA 98011
+(47.73307637400046, -122.19704958899968)","http://www.kingcounty.gov/healthservices/health/locations/northshore.aspx",47.733601,-122.196478
+"Renton Public Health Center","","3001 NE 4th St.","Renton",98056,"3001 NE 4th St.
+Renton, WA 98056
+(47.488532518000454, -122.1777970119997)","http://www.kingcounty.gov/healthservices/health/locations/renton.aspx",47.495052,-122.176187
+"White Center Public Health Center","","9942 8th Avenue SW","Seattle",98106,"9942 8th Avenue SW
+Seattle, WA 98106
+(47.51421632200049, -122.34513788099969)","http://www.kingcounty.gov/healthservices/health/locations/whitecenter.aspx",47.514066,-122.344962

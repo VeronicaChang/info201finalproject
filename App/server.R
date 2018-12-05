@@ -1,12 +1,15 @@
 library(shiny)
 library(ggplot2)
 library(dplyr)
+library(lubridate)
+
+
 shinyServer(function(input, output) {
   dataInput <- reactive({
     # Filter by the drug the user is prescribed
-    drug_names <- read.delim(file = "~/Desktop/INFO201/info201finalproject/data/drug_names.tsv", header = T)
-    side_effects <- read.delim("~/Desktop/INFO201/info201finalproject/data/meddra.tsv", stringsAsFactors = F)
-    all_indications <- read.delim("~/Desktop/INFO201/info201finalproject/data/meddra_all_indications.tsv", stringsAsFactors = F)
+    drug_names <- read.delim(file = "~/INFO201/info201finalproject/data/drug_names.tsv", header = T)
+    side_effects <- read.delim("~/INFO201/info201finalproject/data/meddra.tsv", stringsAsFactors = F)
+    all_indications <- read.delim("~/INFO201/info201finalproject/data/meddra_all_indications.tsv", stringsAsFactors = F)
     
     #Sorting and renaming column names to make it more readable
     colnames(all_indications) <- c("UMLS_ID", "MedDRA_ID", "kind", "first_effect", "type", "number", "second_effect")
@@ -19,13 +22,15 @@ shinyServer(function(input, output) {
     #Joining the data
     final_table <- left_join(drug_names, names_with_id, by = "UMLS_ID") %>% select("drug", "side_effect") 
     final_table <- na.omit(final_table) %>% select(drug, side_effect)
-    final_table <- distinct(Drug_Name, .keep_all = TRUE)
     if (!is.null(input$drug_name)) {
       final_table <- final_table %>% filter(drug == input$drug_name) 
     }
     my_data <- as.data.frame(final_table) 
     do_not_include <- which(duplicated(my_data))
-    my_data <- my_data[-do_not_include, ]
+    my_data <- my_data[-do_not_include, ] %>% select(side_effect)
+  })
+  output$choices <- renderText({
+    return(my_data)
   })
   output$text <- renderText({
     print(input$drug_name)
@@ -34,6 +39,7 @@ shinyServer(function(input, output) {
     data <- dataInput()
   })
   )
+  output$value <- renderPrint({ input$chosen_effects })
 })
 
 #y <-data.frame(matrix(ncol = 1, nrow = 3))

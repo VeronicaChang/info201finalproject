@@ -3,9 +3,9 @@ library(ggplot2)
 library(dplyr)
 library(DT)
 # Filter by the drug the user is prescribed
-drug_names <- read.delim(file = "~/Desktop/INFO201/info201finalproject/data/drug_names.tsv", header = T)
-side_effects <- read.delim("~/Desktop/INFO201/info201finalproject/data/meddra.tsv", stringsAsFactors = F)
-all_indications <- read.delim("~/Desktop/INFO201/info201finalproject/data/meddra_all_indications.tsv", stringsAsFactors = F)
+drug_names <- read.delim(file = "~/INFO201/info201finalproject/data/drug_names.tsv", header = T)
+side_effects <- read.delim("~/INFO201/info201finalproject/data/meddra.tsv", stringsAsFactors = F)
+all_indications <- read.delim("~/INFO201/info201finalproject/data/meddra_all_indications.tsv", stringsAsFactors = F)
 
 #Sorting and renaming column names to make it more readable
 colnames(all_indications) <- c("UMLS_ID", "MedDRA_ID", "kind", "first_effect", "type", "number", "second_effect")
